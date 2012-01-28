@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
 	}
 }
 
+// Threshold the image by its color
 IplImage* getThresholdedImage(IplImage* img)
 {
 	// new image object to store the thresholded image
@@ -119,11 +120,9 @@ IplImage* getThresholdedImage(IplImage* img)
 	return imgThreshed;
 }
 
+// get blobs and filter them using its area
 IplImage* getBlobs(IplImage* img)
 {
-	//////////////////////////////////////////////////////////////
-	//// get blobs and filter them using its area
-	///////////////////////////////////////////////////////////////
 	CBlobResult blobs;
 	int i;
 	CBlob *currentBlob;
