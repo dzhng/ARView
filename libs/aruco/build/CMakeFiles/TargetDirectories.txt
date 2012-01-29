@@ -1,0 +1,9 @@
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/src/CMakeFiles/aruco.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_create_board.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_create_marker.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_selectoptimalmarkers.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_simple.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_simple_board.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_test.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/utils/CMakeFiles/aruco_test_board.dir
+/Users/david/Dropbox/Projects/ARView/libs/aruco/build/CMakeFiles/uninstall.dir
