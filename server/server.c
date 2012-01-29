@@ -86,7 +86,7 @@ int32_t serverClose()
 
 int32_t serverReceive()
 {
-	char* pair;
+	Coor* pair;
 	numbytes=0;
 	addr_len=0;
 	
@@ -103,15 +103,14 @@ int32_t serverReceive()
 			s, sizeof(s)));
 	printf("listener: packet is %d bytes long\n", numbytes);
 
-	pair = buf;
+	pair = (Coor*)buf;
 
 	//iterate through all the points, divide by 8 = 4 byte ints * 2 ints per Coor
 	int32_t i;
-	for(i=0; i<(numbytes/8); i++)
+	for(i=0; i<(numbytes/sizeof(Coor)); i++)
 	{
 		printf("point %d: x=%d y=%d\n", (i+1), 
-				(int32_t)(*(pair)), (int32_t)(*(pair+4)));
-		pair+=8;
+				pair[i].x, pair[i].y);
 	}
 	return 0;
 }
