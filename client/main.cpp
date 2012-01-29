@@ -64,13 +64,12 @@ int main(int argc, char *argv[])
 				xy[2].x = (int)floor(markers[i][2].x);
 				xy[3].y = (int)floor(markers[i][3].y);
 				xy[3].y = (int)floor(markers[i][3].y);
+
+				// send coordinates
+				clientSendCoor(xy, 4);
 			}
 		}
-
 		cv::imshow("Video In", frame);
-
-		// send coordinates
-		clientSendCoor(xy, 4);
 	}
 
 	clientClose();

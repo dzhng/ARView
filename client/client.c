@@ -14,10 +14,6 @@
 
 #include "network.h"
 
-#define SERVERPORT "4950"	// the port users will be connecting to
-
-#define NUM_COOR 5
-
 static int32_t sockfd;
 static struct addrinfo hints, *servinfo, *p;
 static int32_t rv;
@@ -30,7 +26,7 @@ int32_t clientInit(char hostname[])
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_DGRAM;  //UDP
 
-	if ((rv = getaddrinfo(hostname, SERVERPORT, &hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(hostname, PORT, &hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		return 1;
 	}
@@ -68,41 +64,10 @@ int32_t clientSendCoor(Coor *xy, int32_t n)
 			     //socket, message, length
 	if ((numbytes = sendto(sockfd, xy, sizeof(Coor)*n, 0,
 			 p->ai_addr, p->ai_addrlen)) == -1) {
-		perror("talker: sendto");
+		perror("sender error");
 		return 1;
 	}
+	printf("%d bytes sent\n", sizeof(Coor)*n);
 	return 0;
 }
-/*
-int32_t main(int32_t argc, char *argv[])
-{
-	hostname = argv[1];
-	int32_t err=0;
-	Coor xy[NUM_COOR];
-	xy[0].x = 1;
-	xy[0].y = 8;
-	xy[1].x = 2;
-	xy[1].y = 2;
-	xy[2].x = 3;
-	xy[2].y = 3;
-	xy[3].x = 4;
-	xy[3].y = 4;
-	xy[4].x = 13;
-	xy[4].y = 11;
 
-	if((err = clientInit(hostname))) {
-		exit(err);
-	}
-
-	while(!clientSendCoor(xy, NUM_COOR))
-	{
-		sleep(2);
-	}
-
-	if((err = clientClose())) {
-		exit(err);
-	}
-
-	exit(err);
-}
-*/

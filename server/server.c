@@ -16,18 +16,16 @@
 
 #include "network.h"
 
-#define MYPORT "4950"	// the port users will be connecting to
-
 #define MAXBUFLEN 100
 
-int sockfd;
-struct addrinfo hints, *servinfo, *p;
-int rv;
-int numbytes;
-struct sockaddr_storage their_addr;
-char buf[MAXBUFLEN];
-socklen_t addr_len;
-char s[INET6_ADDRSTRLEN];
+static int sockfd;
+static struct addrinfo hints, *servinfo, *p;
+static int rv;
+static int numbytes;
+static struct sockaddr_storage their_addr;
+static char buf[MAXBUFLEN];
+static socklen_t addr_len;
+static char s[INET6_ADDRSTRLEN];
 
 // get sockaddr, IPv4 or IPv6:
 void *get_in_addr(struct sockaddr *sa)
@@ -46,7 +44,7 @@ int32_t serverInit()
 	hints.ai_socktype = SOCK_DGRAM;
 	hints.ai_flags = AI_PASSIVE; // use my IP
 
-	if ((rv = getaddrinfo(NULL, MYPORT, &hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		return 1;
 	}
@@ -96,7 +94,7 @@ int32_t serverReceive()
 	if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0,
 		(struct sockaddr *)&their_addr, &addr_len)) == -1) {
 		perror("recvfrom");
-		exit(1);
+		return 1;
 	}
 
 	printf("listener: got packet from %s\n",
@@ -115,23 +113,6 @@ int32_t serverReceive()
 				(int32_t)(*(pair)), (int32_t)(*(pair+4)));
 		pair+=8;
 	}
-
-}
-
-int32_t main(void)
-{
-	if(erverInit()) {
-		exit(EXIT_FAILURE);
-	}
-
-	while(1)
-	{
-		serverReceive();
-	}
-
-	if(serverClose()) {
-		exit(EXIT_FAILURE);
-	}
-	exit(EXIT_SUCCESS);
+	return 0;
 }
 
