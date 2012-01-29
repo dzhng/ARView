@@ -120,24 +120,18 @@ int32_t serverReceive()
 
 int32_t main(void)
 {
-	int32_t err=0;	
-
-	if((err = serverInit())) {
-		exit(err);
+	if(erverInit()) {
+		exit(EXIT_FAILURE);
 	}
 
 	while(1)
 	{
-		//if((err = serverReceive())) {
-			//exit(err);
-		//}
-
 		serverReceive();
 	}
 
-	if((err = serverClose())) {
-		exit(err);
+	if(serverClose()) {
+		exit(EXIT_FAILURE);
 	}
-	exit(err);
+	exit(EXIT_SUCCESS);
 }
 
