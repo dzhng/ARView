@@ -2,7 +2,7 @@
 CC= g++
 
 NAME= client
-SRC= client.c
+SRC= processimage.c
 
 prefix=/usr/local
 exec_prefix=${prefix}
