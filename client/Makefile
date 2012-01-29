@@ -2,7 +2,7 @@
 CC= g++
 
 NAME= client
-SRC= processimage.cpp
+SRC= main.cpp client.c
 
 LIBS= -L../libs/aruco/build/src -laruco
 CFLAGS= -O2 -I../libs/aruco/src -Wall 

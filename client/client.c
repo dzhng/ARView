@@ -1,7 +1,3 @@
-/*
-** a datagram "client" demo
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -22,11 +18,10 @@
 
 #define NUM_COOR 5
 
-int32_t sockfd;
-struct addrinfo hints, *servinfo, *p;
-int32_t rv;
-int32_t numbytes;
-char* hostname;
+static int32_t sockfd;
+static struct addrinfo hints, *servinfo, *p;
+static int32_t rv;
+static int32_t numbytes;
 
 int32_t clientInit(char hostname[])
 {
@@ -78,7 +73,7 @@ int32_t clientSendCoor(Coor *xy, int32_t n)
 	}
 	return 0;
 }
-
+/*
 int32_t main(int32_t argc, char *argv[])
 {
 	hostname = argv[1];
@@ -110,51 +105,4 @@ int32_t main(int32_t argc, char *argv[])
 
 	exit(err);
 }
-
-/*int sockfd;
-	struct addrinfo hints, *servinfo, *p;
-	int rv;
-	int numbytes;
-
-	//make sure there are exactly 3 arguments...
-	//the client, hostname, and message
-	if (argc != 3) {
-		fprintf(stderr,"usage: client hostname message\n");
-		exit(1);
-	}
-
-	memset(&hints, 0, sizeof(hints));
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_DGRAM;  //UDP
-
-	if ((rv = getaddrinfo(argv[1], SERVERPORT, &hints, &servinfo)) != 0) {
-		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
-		exit(1);
-	}
-
-	// loop through all the results and make a socket
-	for(p = servinfo; p != NULL; p = p->ai_next) {
-		if ((sockfd = socket(p->ai_family, p->ai_socktype,
-				p->ai_protocol)) == -1) {
-			perror("talker: socket");
-			continue;
-		}
-
-		break;
-	}
-
-	if (p == NULL) {
-		fprintf(stderr, "talker: failed to bind socket\n");
-		exit(2);
-	}
-
-	if ((numbytes = sendto(sockfd, argv[2], strlen(argv[2]), 0,
-			 p->ai_addr, p->ai_addrlen)) == -1) {
-		perror("talker: sendto");
-		exit(1);
-	}
-
-	freeaddrinfo(servinfo);
-
-	printf("talker: sent %d bytes to %s\n", numbytes, argv[1]);
-	close(sockfd);*/
+*/
