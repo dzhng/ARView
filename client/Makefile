@@ -5,7 +5,7 @@ NAME= client
 SRC= main.cpp client.c
 
 LIBS= -L../libs/aruco/build/src -laruco
-CFLAGS= -O2 -I../libs/aruco/src -Wall 
+CFLAGS= -O2 -I../libs/aruco/src -I../include -Wall 
 
 
 all:
