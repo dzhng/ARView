@@ -15,19 +15,19 @@
 #include "network.h"
 
 static int32_t sockfd;
-static struct addrinfo hints, *servinfo, *p;
-static int32_t rv;
-static int32_t numbytes;
+struct addrinfo hints, *servinfo, *p;
 
 int32_t clientInit(char hostname[])
 {
+	int32_t rv;
+
 	printf("hostname: %s\n", hostname);
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_DGRAM;  //UDP
 
 	if ((rv = getaddrinfo(hostname, PORT, &hints, &servinfo)) != 0) {
-		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+		perror("Can't get address info");
 		return 1;
 	}
 
@@ -53,7 +53,6 @@ int32_t clientClose()
 {
 	freeaddrinfo(servinfo);
 
-	printf("talker: sent %d bytes to hostname\n", numbytes);
 	close(sockfd);
 	return 0;
 }
@@ -61,13 +60,15 @@ int32_t clientClose()
 //params: array of coordinates (xy) and size of array (n)
 int32_t clientSendCoor(Coor *xy, int32_t n)
 {
-			     //socket, message, length
+	int numbytes;
+
+	 //socket, message, length
 	if ((numbytes = sendto(sockfd, xy, sizeof(Coor)*n, 0,
 			 p->ai_addr, p->ai_addrlen)) == -1) {
 		perror("sender error");
 		return 1;
 	}
-	printf("%d bytes sent\n", sizeof(Coor)*n);
+	printf("%d bytes sent\n", numbytes);
 	return 0;
 }
 

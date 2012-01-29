@@ -37,7 +37,9 @@ int main(int argc, char *argv[])
 	vector<Marker> markers;
 
 	// initialize the network
-	clientInit(argv[1]);
+	if(clientInit(argv[1])){
+		perror("Client init error");
+	}
 
 	cv::namedWindow("Video In", CV_WINDOW_AUTOSIZE);
 	vc.open(0);
@@ -58,11 +60,14 @@ int main(int argc, char *argv[])
 				// make coordinates
 				xy[0].x = (int)floor(markers[i][0].x);
 				xy[0].y = (int)floor(markers[i][0].y);
+
 				xy[1].x = (int)floor(markers[i][1].x);
 				xy[1].y = (int)floor(markers[i][1].y);
+
 				xy[2].x = (int)floor(markers[i][2].x);
-				xy[2].x = (int)floor(markers[i][2].x);
-				xy[3].y = (int)floor(markers[i][3].y);
+				xy[2].y = (int)floor(markers[i][2].y);
+
+				xy[3].x = (int)floor(markers[i][3].x);
 				xy[3].y = (int)floor(markers[i][3].y);
 
 				// send coordinates
