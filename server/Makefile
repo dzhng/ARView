@@ -2,7 +2,7 @@
 CC= g++
 
 NAME= server
-SRC= main.c server.c #processimage.cpp
+SRC= main.cpp server.c
 
 LIBS= -L../libs/aruco/build/src 
 CFLAGS= -O2 -I../include -Wall 

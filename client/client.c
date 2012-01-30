@@ -68,7 +68,7 @@ int32_t clientSendCoor(Coor *xy, int32_t n)
 		perror("sender error");
 		return 1;
 	}
-	printf("%d bytes sent\n", numbytes);
+	//printf("%d bytes sent\n", numbytes);
 	return 0;
 }
 

@@ -16,6 +16,6 @@ int32_t clientSendCoor(Coor *xy, int32_t n);
 
 int32_t serverInit();
 int32_t serverClose();
-int32_t serverReceive();
+int32_t serverReceive(Coor *xy);
 
 #endif
