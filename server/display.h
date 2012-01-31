@@ -4,6 +4,6 @@
 #define SIZEX		1000
 #define SIZEY		700
 
-#define MARKER_SIZE	62		// size of marker length in pixels in server coordinate space
+#define MARKER_SIZE	100		// size of marker length in pixels in server coordinate space
 
 #endif
