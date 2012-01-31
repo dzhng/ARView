@@ -11,7 +11,6 @@
 #include <cv.h>
 #include <highgui.h>
 
-
 using namespace cv;
 
 static Point2f dest[4];	// destination coorinates for transformation matrix
@@ -38,6 +37,7 @@ int main(void)
 	
 	IplImage* origImg = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
 	IplImage* resizeImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
+	IplImage* displayImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
 	cvResize(origImg, resizeImg, CV_INTER_LINEAR);
 
 	/* initialize font and add text */
@@ -85,7 +85,16 @@ int main(void)
 			pt.y = (int)((T.at<double>(1,0) * (double)(xy[0].x) + T.at<double>(1,1) * (double)(xy[0].y) + T.at<double>(1,2))/z);
 			printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
 			
-			draw(resizeImg,(int32_t)(pt.x),(int32_t)(pt.y));
+			/* draw a red circle */
+			cvCircle(markupImg,						/* the dest image */
+				cvPoint(x, y), 7,					/* center point and radius */
+				cvScalar(0, 0, 255, 0),				/* the color; red */
+				1, 8, 0);							/* thickness, line type, shift */
+
+			cvAdd(resizeImg, markupImg, 0.0, displayImg); 
+
+			cvWaitKey(1);							//wait for 1 ms
+			cvShowImage("image", displayImg);		//display image
 		}
 	}
 
