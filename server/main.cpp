@@ -107,7 +107,7 @@ int main(void)
 				cvScalar(0, 0, 255, 0),				/* the color; red */
 				-1);		
 		}
-		cvConvertScaleAbs(markupImg, markupImg, 0.9);
+		cvConvertScaleAbs(markupImg, markupImg, 0.99);
 		cvAdd(resizeImg, markupImg, displayImg); 
 		cvShowImage("meow", displayImg);		//display image
 		cvWaitKey(1);					//wait for 1 ms
