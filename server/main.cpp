@@ -8,6 +8,9 @@
 #include "display.h"
 #include <cv.h>
 #include <highgui.h>
+#include "draw.h"
+//void draw(IplImage *img, int32_t x, int32_t y)
+
 
 using namespace cv;
 
@@ -32,6 +35,19 @@ int main(void)
 		perror("server init error");
 		exit(EXIT_FAILURE);
 	}
+
+	//IplImage* newim=cvCreateImage(cvSize(SIZEY,SIZEX),IPL_DEPTH_32S,4);
+	
+
+	IplImage* newim = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
+        /* initialize font and add text */
+        CvFont font;
+        cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
+        cvPutText(newim, "Draw with your finger!", cvPoint(10, 130), &font, cvScalar(255, 255, 255, 0));
+
+
+	cvNamedWindow("image", CV_WINDOW_AUTOSIZE);	//initialize window
+        cvShowImage("image", newim);			//show image
 
 	while(1)
 	{
@@ -70,7 +86,9 @@ int main(void)
 			pt.x = (int)((T.at<double>(0,0) * (double)(xy[0].x) + T.at<double>(0,1) * (double)(xy[0].y) + T.at<double>(0,2))/z);
 			pt.y = (int)((T.at<double>(1,0) * (double)(xy[0].x) + T.at<double>(1,1) * (double)(xy[0].y) + T.at<double>(1,2))/z);
 			printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
-		//}
+			
+			draw(newim,(int32_t)(pt.x),(int32_t)(pt.y));
+		}
 	}
 
 	if(serverClose()) {
@@ -79,4 +97,3 @@ int main(void)
 	}
 	exit(EXIT_SUCCESS);
 }
-

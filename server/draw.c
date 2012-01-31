@@ -5,7 +5,7 @@
 
 //static IplImage *img;
 
-int32_t draw(IplImage *img, int32_t x, int32_t y)
+void draw(IplImage *img, int32_t x, int32_t y)
 {
 	/* draw a red circle */
 	cvCircle(img,                       /* the dest image */
