@@ -35,17 +35,14 @@ int main(void)
 		perror("server init error");
 		exit(EXIT_FAILURE);
 	}
-
-	//IplImage* newim=cvCreateImage(cvSize(SIZEY,SIZEX),IPL_DEPTH_32S,4);
 	
-
 	IplImage* origImg = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
 	IplImage *resizeImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
 	cvResize(origImg, resizeImg, CV_INTER_LINEAR);
         /* initialize font and add text */
         CvFont font;
         cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
-        cvPutText(newim, "Draw with your finger!", cvPoint(10, 130), &font, cvScalar(255, 255, 255, 0));
+        cvPutText(resizeImg, "Draw with your finger!", cvPoint(10, 130), &font, cvScalar(255, 255, 255, 0));
 
 	//create qrCode image object
 	IplImage *qrCode = cvLoadImage("marker256.jpg", CV_LOAD_IMAGE_COLOR);
@@ -99,13 +96,13 @@ int main(void)
 			pt.y = (int)((T.at<double>(1,0) * (double)(xy[0].x) + T.at<double>(1,1) * (double)(xy[0].y) + T.at<double>(1,2))/z);
 			printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
 			
-			draw(newim,(int32_t)(pt.x),(int32_t)(pt.y));
+			draw(resizeImg,(int32_t)(pt.x),(int32_t)(pt.y));
 		}
 	}
 
 	cvWaitKey(0);		//wait until window closed
 	cvDestroyWindow("meow");
-        cvReleaseImage( &img );
+        cvReleaseImage( &resizeImg );
 
 	if(serverClose()) {
 		perror("server close error");
