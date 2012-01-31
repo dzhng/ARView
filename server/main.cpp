@@ -39,15 +39,27 @@ int main(void)
 	//IplImage* newim=cvCreateImage(cvSize(SIZEY,SIZEX),IPL_DEPTH_32S,4);
 	
 
-	IplImage* newim = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
+	IplImage* origImg = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
+	IplImage *resizeImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
+	cvResize(origImg, resizeImg, CV_INTER_LINEAR);
         /* initialize font and add text */
         CvFont font;
         cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
         cvPutText(newim, "Draw with your finger!", cvPoint(10, 130), &font, cvScalar(255, 255, 255, 0));
 
+	//create qrCode image object
+	IplImage *qrCode = cvLoadImage("marker256.jpg", CV_LOAD_IMAGE_COLOR);
+	//resize qRCode image object
+	IplImage *modQR = cvCreateImage( cvSize(MARKER_SIZE,MARKER_SIZE), qrCode->depth, qrCode->nChannels);
+	cvResize(qrCode, modQR, CV_INTER_LINEAR);	
 
-	cvNamedWindow("image", CV_WINDOW_AUTOSIZE);	//initialize window
-        cvShowImage("image", newim);			//show image
+	cvNamedWindow("meow", CV_WINDOW_AUTOSIZE);	//initialize window
+	
+	cvSetImageROI(resizeImg, cvRect(resizeImg->width-MARKER_SIZE, resizeImg->height-MARKER_SIZE, modQR->width, modQR->height));
+	cvAddWeighted(resizeImg, 0, modQR, 1, 0.0, resizeImg); 
+	cvResetImageROI(resizeImg);
+
+        cvShowImage("meow", resizeImg);			//show image
 
 	while(1)
 	{
@@ -90,6 +102,10 @@ int main(void)
 			draw(newim,(int32_t)(pt.x),(int32_t)(pt.y));
 		}
 	}
+
+	cvWaitKey(0);		//wait until window closed
+	cvDestroyWindow("meow");
+        cvReleaseImage( &img );
 
 	if(serverClose()) {
 		perror("server close error");
