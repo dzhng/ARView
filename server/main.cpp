@@ -51,14 +51,20 @@ int main(void)
 	IplImage* modQR = cvCreateImage( cvSize(MARKER_SIZE,MARKER_SIZE), qrCode->depth, qrCode->nChannels);
 	cvResize(qrCode, modQR, CV_INTER_LINEAR);	
 
-	cvSetImageROI(resizeImg, cvRect(resizeImg->width-MARKER_SIZE, resizeImg->height-MARKER_SIZE, modQR->width, modQR->height));
+	cvSetImageROI(resizeImg, cvRect(resizeImg->width-MARKER_SIZE-20, resizeImg->height-MARKER_SIZE-20, modQR->width, modQR->height));
 	cvAddWeighted(resizeImg, 0, modQR, 1, 0.0, resizeImg); 
 	cvResetImageROI(resizeImg);
+
+	cvRectangle(resizeImg,                    /* the dest image */
+                cvPoint(resizeImg->width-MARKER_SIZE-30, resizeImg->height-MARKER_SIZE-30),        /* top left point */
+                cvPoint(resizeImg->width-10, resizeImg->height-10),       /* bottom right point */
+                cvScalar(255, 255, 255, 0), /* the color; blue */
+                20, 8, 0);
 
 	cvNamedWindow("meow", CV_WINDOW_AUTOSIZE);	//initialize window
 	cvShowImage("meow", resizeImg);			//show image
 
-	//cvWaitKey(0);
+	cvWaitKey(0);
 
 	while(1)
 	{
