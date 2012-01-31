@@ -58,6 +58,8 @@ int main(void)
 
         cvShowImage("meow", resizeImg);			//show image
 
+	cvWaitKey(0);
+
 	while(1)
 	{
 		if((n = serverReceive(xy)) == 5) {
@@ -97,6 +99,7 @@ int main(void)
 			printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
 			
 			draw(resizeImg,(int32_t)(pt.x),(int32_t)(pt.y));
+			//cvWaitKey(1);
 		}
 	}
 
