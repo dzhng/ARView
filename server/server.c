@@ -97,11 +97,11 @@ int32_t serverReceive(Coor* xy)
 		return 1;
 	}
 
-	printf("listener: got packet from %s\n",
+	/*printf("listener: got packet from %s\n",
 		inet_ntop(their_addr.ss_family,
 			get_in_addr((struct sockaddr *)&their_addr),
 			s, sizeof(s)));
-	printf("listener: packet is %d bytes long\n", numbytes);
+	printf("listener: packet is %d bytes long\n", numbytes);*/
 
 	memcpy(xy, buf, numbytes);
 	return numbytes/sizeof(Coor);

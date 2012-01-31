@@ -35,9 +35,13 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
-	IplImage* origImg = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
+	//IplImage* origImg = cvLoadImage("aston.jpg", CV_LOAD_IMAGE_COLOR);
+	IplImage* origImg = cvCreateImage( cvSize(SIZEX,SIZEY), 8, 3);
+	cvConvertScaleAbs(origImg, origImg, 0);
 	IplImage* resizeImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
 	IplImage* displayImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
+	IplImage* markupImg = cvCreateImage( cvSize(SIZEX,SIZEY), origImg->depth, origImg->nChannels);
+	cvConvertScaleAbs(markupImg, markupImg, 0);
 	cvResize(origImg, resizeImg, CV_INTER_LINEAR);
 
 	/* initialize font and add text */
@@ -75,27 +79,38 @@ int main(void)
 			src[2] = Point2f((double)(xy[4].x), (double)(xy[4].y));
 			T = getPerspectiveTransform(src, dest);
 
-			printf("%f, %f, %f\n%f, %f, %f\n%f, %f, %f\n", 
+			/*printf("%f, %f, %f\n%f, %f, %f\n%f, %f, %f\n", 
 					T.at<double>(0,0), T.at<double>(0,1), T.at<double>(0,2), 
 					T.at<double>(1,0), T.at<double>(1,1), T.at<double>(1,2),
-					T.at<double>(2,0), T.at<double>(2,1), T.at<double>(2,2));
+					T.at<double>(2,0), T.at<double>(2,1), T.at<double>(2,2));*/
 
 			z = T.at<double>(2,0) * (double)(xy[0].x) + T.at<double>(2,1) * (double)(xy[0].y) + T.at<double>(2,2);
 			pt.x = (int)((T.at<double>(0,0) * (double)(xy[0].x) + T.at<double>(0,1) * (double)(xy[0].y) + T.at<double>(0,2))/z);
 			pt.y = (int)((T.at<double>(1,0) * (double)(xy[0].x) + T.at<double>(1,1) * (double)(xy[0].y) + T.at<double>(1,2))/z);
-			printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
+			//printf("x:%d, y:%d, z:%f\n", pt.x, pt.y, z);
 			
 			/* draw a red circle */
 			cvCircle(markupImg,						/* the dest image */
-				cvPoint(x, y), 7,					/* center point and radius */
+				cvPoint(pt.x, pt.y), 7,					/* center point and radius */
 				cvScalar(0, 0, 255, 0),				/* the color; red */
-				1, 8, 0);							/* thickness, line type, shift */
-
-			cvAdd(resizeImg, markupImg, 0.0, displayImg); 
-
-			cvWaitKey(1);							//wait for 1 ms
-			cvShowImage("image", displayImg);		//display image
+				-1);							/* thickness, line type, shift */
+			cvCircle(markupImg,						/* the dest image */
+				cvPoint(pt.x+rand()%20, pt.y+rand()%20), 7,					/* center point and radius */
+				cvScalar(0, 0, 255, 0),				/* the color; red */
+				-1);		
+			cvCircle(markupImg,						/* the dest image */
+				cvPoint(pt.x+rand()%20, pt.y+rand()%20), 7,					/* center point and radius */
+				cvScalar(0, 0, 255, 0),				/* the color; red */
+				-1);		
+			cvCircle(markupImg,						/* the dest image */
+				cvPoint(pt.x+rand()%20, pt.y+rand()%20), 7,					/* center point and radius */
+				cvScalar(0, 0, 255, 0),				/* the color; red */
+				-1);		
 		}
+		cvConvertScaleAbs(markupImg, markupImg, 0.9);
+		cvAdd(resizeImg, markupImg, displayImg); 
+		cvShowImage("meow", displayImg);		//display image
+		cvWaitKey(1);					//wait for 1 ms
 	}
 
 	cvWaitKey(0);		//wait until window closed
