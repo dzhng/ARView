@@ -2,7 +2,7 @@
 CC= g++
 
 NAME= server
-SRC= main.cpp server.c draw.c
+SRC= main.cpp server.c #draw.c
 
 LIBS= -L../libs/aruco/build/src 
 CFLAGS= -O2 -I../include -Wall 
