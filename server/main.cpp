@@ -49,6 +49,9 @@ int main(void)
 	cvNamedWindow("image", CV_WINDOW_AUTOSIZE);	//initialize window
         cvShowImage("image", newim);			//show image
 
+	cvWaitKey(0);
+	
+	
 	while(1)
 	{
 		if((n = serverReceive(xy)) == 5) {
@@ -95,5 +98,7 @@ int main(void)
 		perror("server close error");
 		exit(EXIT_FAILURE);
 	}
+	cvDestroyWindow("image");
+	cvReleaseImage(&newim);
 	exit(EXIT_SUCCESS);
 }
