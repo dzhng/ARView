@@ -125,6 +125,6 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	cvDestroyWindow("image");
-	cvReleaseImage(&newim);
+	cvReleaseImage(&resizeImg);
 	exit(EXIT_SUCCESS);
 }
